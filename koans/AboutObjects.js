@@ -32,7 +32,7 @@ describe("About Objects", function () {
     expect(FILL_ME_IN).toMatch(battleCry);
   });
 
-  it("should confirm that when a function is attached to an object, 'this' refers to the object", function () {
+  it("should confirm that when a function is attached to an object and invoked from the object, 'this' refers to the object", function () {
     var currentDate = new Date();
     var currentYear = (currentDate.getFullYear());
     var megalomaniac = {
@@ -40,12 +40,31 @@ describe("About Objects", function () {
       henchman: "Adam West",
       birthYear: 1970,
       calculateAge: function () {
-        return currentYear - this.birthYear;
+        if (this.birthYear){
+          return currentYear - this.birthYear;
+        }
       }
     };
 
-    expect(currentYear).toBe(FILL_ME_IN);
     expect(megalomaniac.calculateAge()).toBe(FILL_ME_IN);
+  });
+
+  it("should confirm that when a function is attached to an object but not invoked from the object, 'this' does not refers to the object", function () {
+    var currentDate = new Date();
+    var currentYear = (currentDate.getFullYear());
+    var megalomaniac = {
+      mastermind: "James Wood",
+      henchman: "Adam West",
+      birthYear: 1970,
+      calculateAge: function () {
+        if (this.birthYear){
+          return currentYear - this.birthYear;
+        }
+      }
+    };
+
+    var calculateAge = megalomaniac.calculateAge;
+    expect(calculateAge()).toEqual(FILL_ME_IN);
   });
 
   describe("'in' keyword", function () {
